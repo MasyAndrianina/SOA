@@ -16,7 +16,7 @@ sequelize.authenticate()
     .then(() => console.log('Connexion à la base de données établie.'))
     .catch(err => console.error('Impossible de se connecter à la base de données:', err));
 
-sequelize.sync({}) // ATTENTION : force: true supprime les tables existantes
+sequelize.sync({force: true}) // ATTENTION : force: true supprime les tables existantes
     .then(() => console.log('Tables synchronisées.'))
     .catch(err => console.error('Erreur lors de la synchronisation des tables:', err));
 

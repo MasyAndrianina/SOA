@@ -1,11 +1,25 @@
 const Appel = require('../models/appel');
+const axios = require('axios'); 
 
 exports.creerAppel = async (req, res) => {
     try {
         const appel = await Appel.create(req.body);
         res.status(201).json(appel);
+
+        // Envoi d'une requête POST à Gestion des Dossiers
+        axios.post('http://localhost:3001/dossiers', { // Remplacez 3001 par le port de Gestion des Dossiers
+            idEmploye: appel.idAppelant,
+            contenu: 'Dossier créé automatiquement lors de l\'appel.',
+            statut: 'actif'
+        }).then(response => {
+            console.log('Dossier créé avec succès:', response.data);
+        }).catch(error => {
+            console.error('Erreur lors de la création du dossier:', error.message);
+        });
+
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        console.error('Erreur lors de la création de l\'appel:', error);
+        res.status(500).json({ message: 'Erreur lors de la création de l\'appel.', error: error.message });
     }
 };
 

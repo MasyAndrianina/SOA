@@ -59,6 +59,7 @@ exports.supprimerDossier = async (req, res) => {
 
 exports.obtenirDossierParEmploye = async (req, res) => {
     try {
+        console.log('ID employé recherché:', req.params.idEmploye); // Ajout de cette ligne
         const dossier = await Dossier.findOne({
             where: { idEmploye: req.params.idEmploye }
         });
