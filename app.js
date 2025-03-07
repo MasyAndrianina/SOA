@@ -1,13 +1,13 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const gestionRequetes = require('./gestion_requetes');
-const gestionRequetes = require('./notification');
-const gestionRequetes = require('./validation');
+const notification = require('./notification');
+const validation = require('./validation');
 
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3002;
 
 app.use(express.json());
 

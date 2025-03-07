@@ -1,5 +1,5 @@
 const Appel = require('../models/appel');
-const axios = require('axios'); 
+const axios = require('axios');
 
 exports.creerAppel = async (req, res) => {
     try {
@@ -7,15 +7,30 @@ exports.creerAppel = async (req, res) => {
         res.status(201).json(appel);
 
         // Envoi d'une requête POST à Gestion des Dossiers
-        axios.post('http://localhost:3001/dossiers', { // Remplacez 3001 par le port de Gestion des Dossiers
-            idEmploye: appel.idAppelant,
-            contenu: 'Dossier créé automatiquement lors de l\'appel.',
-            statut: 'actif'
-        }).then(response => {
-            console.log('Dossier créé avec succès:', response.data);
-        }).catch(error => {
-            console.error('Erreur lors de la création du dossier:', error.message);
-        });
+        try {
+            const dossierResponse = await axios.post('http://localhost:3001/dossiers', {
+                idEmploye: appel.idAppelant,
+                contenu: 'Dossier créé automatiquement lors de l\'appel.',
+                statut: 'actif'
+            });
+            console.log('Dossier créé avec succès:', dossierResponse.data);
+        } catch (dossierError) {
+            console.error('Erreur lors de la création du dossier:', dossierError.message);
+        }
+
+        // Envoi d'une requête POST à Gestion des Requêtes
+        try {
+            const requeteResponse = await axios.post('http://localhost:3002/api/requetes', {
+                idEmploye: appel.idAppelant,
+                description: appel.description, // Ou une description plus précise
+                dateAppel: appel.date,
+                heureAppel: appel.heure,
+                sujetAppel: appel.sujet
+            });
+            console.log('Requête créée avec succès:', requeteResponse.data);
+        } catch (requeteError) {
+            console.error('Erreur lors de la création de la requête:', requeteError.message);
+        }
 
     } catch (error) {
         console.error('Erreur lors de la création de l\'appel:', error);
