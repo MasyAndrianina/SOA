@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.get('/', requetesController.getRequetes);
 router.post('/', requetesController.createRequete);
-// ... autres routes
+router.put('/:id', requetesController.mettreAJourRequete);// ... autres routes
 
 module.exports = router;

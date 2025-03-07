@@ -73,3 +73,19 @@ exports.obtenirDossierParEmploye = async (req, res) => {
         res.status(500).json({ message: 'Erreur lors de la récupération du dossier par employé.', error: error.message });
     }
 };
+
+exports.modifierDossier = async (req, res) => {
+    try {
+        const dossier = await Dossier.findOne({ where: { idEmploye: req.body.idEmploye } });
+        if (!dossier) {
+            return res.status(404).json({ message: 'Dossier non trouvé.' });
+        }
+
+        dossier.contenu = req.body.contenu;
+        await dossier.save();
+
+        res.json(dossier);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};

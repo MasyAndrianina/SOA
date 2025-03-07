@@ -7,5 +7,6 @@ router.get('/:id', dossiersController.obtenirDossier);
 router.put('/:id', dossiersController.mettreAJourDossier);
 router.delete('/:id', dossiersController.supprimerDossier);
 router.get('/employe/:idEmploye', dossiersController.obtenirDossierParEmploye);
+router.post('/modifier', dossiersController.modifierDossier);
 
 module.exports = router;
